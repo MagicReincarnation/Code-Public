@@ -1,0 +1,146 @@
+[2023/9/19]
++ update ditambah cover 
+
+
+<script>
+  //data yg diambil untuk history
+  const gambarCover_Series_ch = &quot;<data:post.featuredImage/>&quot;;
+  const id_Series_ch = &quot;<data:post.id/>&quot;;
+  const title_Series_ch = &quot;<data:post.title/>&quot;;
+  const url_Series_ch = &quot;<data:post.url/>&quot;;     histories.addHistory(id_Series_ch, title_Series_ch, url_Series_ch, gambarCover_Series_ch);
+</script>                  
+
+<script fetchpriority='low' type='text/javascript'>
+//<![CDATA[
+var coverSCH_On = false; // buat jadi true untuk mengaktifkan Covernya 
+
+const history_ = function (widget, id) {let getHistory = JSON.parse(localStorage.getItem('History')),
+        structure = '';
+    if (getHistory != null && getHistory != '') {
+        for (let item in getHistory.reverse()) {
+structure += `<li class="bm_item"><a href="${getHistory[item].link}">${getHistory[item].title}</a>`;
+
+if (coverSCH_On){
+if (getHistory[item].coverSCH) {
+   structure += `<img src="${getHistory[item].coverSCH}" alt="Cover">`;
+      } else {
+// disini bug terjadi, dimana gambar no image gak bisa kutampilkan
+   
+structure += `<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4fcAKrgsMccSesDmcJm6gPzkeXIm6z5qH_olh0m7xWtE853swqD6i0axSv6DzDo3gKm5vVn4iUFtXUUIYUI8Sx-6UG-XkZNb0rImvGiTKdxX0BgTplirxNbco6MMHgN3KQC6z0jEAOFeu5dhvenUm8q6RHh5VeOMa7xdnpkzP0jp7o2DbQ0CJ388lbyM/s1600/STK-20221120-WA0047.webp" alt="No Image">`;}
+     } 
+structure += `</li>`;
+        }
+$(id).html(structure);
+    } else {
+$(widget).remove();
+    }
+}
+//]]>
+</script>
+<script fetchpriority='low' type='text/javascript'>
+//<![CDATA[
+const limitHistory = 6;
+const histories = (function () {
+    list = [];
+
+    function Item(id, title, link) {
+        this.id = id;
+        this.title = title;
+        this.link = link;
+    }
+
+    function setHistory() {
+        localStorage.setItem('History', JSON.stringify(list));
+    }
+
+    function loadHistory() {
+        list = JSON.parse(localStorage.getItem('History'));
+    }
+
+    if (localStorage.getItem("History") != null) {
+        loadHistory();
+    }
+
+    obj = {};
+    obj.addHistory = function (id, title, link) {
+        var item = new Item(id, title, link);
+        if (list != null) {
+            same = list.find(item => {
+                return item.id == id;
+            });
+            if (list.length < limitHistory) {
+                if (!same) {
+                    list.push(item);
+                    setHistory();
+                } else {
+                    for (let item in list) {
+                        if (list[item].id === id) {
+                            list.splice(list.length, 0, list.splice(item, 1)[0]);
+                        }
+                        setHistory();
+                    }
+                }
+            } else {
+                if (!same) {
+                    list.splice(0, 1);
+                    list.push(item);
+                    setHistory();
+                } else {
+                    for (let item in list) {
+                        if (list[item].id === id) {
+                            list.splice(list.length, 0, list.splice(item, 1)[0]);
+                        }
+                        setHistory();
+                    }
+                }
+            }
+        } else {
+            list.push(item);
+            setHistory();
+        }
+    }
+
+    obj.addHistory = function (id, title, link, coverSCH) {
+var item = new Item(id, title, link);
+item.coverSCH = coverSCH; 
+   if (list != null) {
+same = list.find(item => {
+return item.id == id;
+            });
+if (list.length < limitHistory) {
+if (!same) {
+list.push(item);
+setHistory();
+ } else {
+                    
+for (let item in list) {
+if (list[item].id === id) {
+list.splice(list.length, 0, list.splice(item, 1)[0]);
+   }
+   setHistory();
+   }
+  }
+} else {
+if (!same) {
+list.splice(0, 1);
+list.push(item);
+setHistory();
+  } else {
+for (let item in list) {
+                        
+if (list[item].id === id) {
+list.splice(list.length, 0, list.splice(item, 1)[0]);
+     }
+setHistory();
+     }
+    }
+   }
+  } else {
+ list.push(item);
+ setHistory();
+        }
+    }
+return obj;
+})();
+//]]>
+</script>
